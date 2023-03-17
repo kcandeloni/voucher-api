@@ -19,9 +19,7 @@ describe("Apply Voucher", () => {
 
     jest
     .spyOn(voucherRepository, "useVoucher")
-    .mockImplementationOnce((): any => {
-      return;
-    });
+    .mockImplementationOnce((): any => {});
 
     const promise = await voucherService.applyVoucher(params.code, params.amount);
     
@@ -62,9 +60,7 @@ describe("Reject voucher", () => {
 
     jest
     .spyOn(voucherRepository, "useVoucher")
-    .mockImplementationOnce((): any => {
-      return;
-    });
+    .mockImplementationOnce((): any => {});
 
     const promise = await voucherService.applyVoucher(params.code, params.valueRejected);
     
@@ -90,9 +86,7 @@ describe("Reject voucher", () => {
 
     jest
     .spyOn(voucherRepository, "useVoucher")
-    .mockImplementationOnce((): any => {
-      return;
-    });
+    .mockImplementationOnce((): any => {});
 
     const promise = await voucherService.applyVoucher(params.code, params.amount);
     
@@ -104,4 +98,17 @@ describe("Reject voucher", () => {
     });
   });
   
+  it("Voucher invaid", async () => {
+    jest
+    .spyOn(voucherRepository, "getVoucherByCode")
+    .mockImplementationOnce((): any => {});
+
+    const promise = voucherService.applyVoucher(params.code, params.amount);
+    
+    expect(promise).rejects.toEqual({
+      type: "conflict",
+      message: "Voucher does not exist."
+    });
+  });
+
 });

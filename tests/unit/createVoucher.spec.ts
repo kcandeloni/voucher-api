@@ -17,8 +17,7 @@ describe("Reject Voucher Creation", () => {
 });
 
 describe("Create Voucher", () => {
-  it("Create new voucer", () => {
-    expect( async () => {
+  it("Create new voucer", async () => {
         jest
       .spyOn(voucherRepository, "getVoucherByCode")
       .mockImplementationOnce((): any => {
@@ -27,12 +26,10 @@ describe("Create Voucher", () => {
 
       jest
       .spyOn(voucherRepository, "createVoucher")
-      .mockImplementationOnce((): any => {
-        return;
-      });
+      .mockImplementationOnce((): any => {});
 
       await voucherService.createVoucher("newvoucher", 10);
-    }).not.toEqual({message: "Voucher already exist.", type: "conflict"});
+    expect(voucherRepository.createVoucher).toBeCalled();
   });
 
 });
